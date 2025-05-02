@@ -1,0 +1,123 @@
+.items-container {
+  width: 100%;
+  padding: 4rem 1rem;
+  min-height: 100vh; /* Ensures the background stretches the full height of the viewport */
+  background: linear-gradient(180deg, rgba(79, 70, 229, 1) 0%, rgba(24, 136, 255, 1) 60%, rgba(24, 136, 255, 0.8) 100%);
+  color: white;
+}
+
+.items-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.items-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.items-header p {
+  font-size: 1.2rem;
+  color: #f1f1f1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Swiper Container */
+.carousel-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card Styles */
+.item-card {
+  background-color: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* Image Styles */
+.item-image-container {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-image:hover {
+  transform: scale(1.1);
+}
+
+/* Item Details */
+.item-details {
+  padding: 1rem;
+  text-align: center;
+}
+
+.item-details h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Swiper Custom Styles */
+/* Default (non-active) bullet color */
+.swiper-pagination-bullet {
+  background: rgba(13, 13, 13, 0.5); /* Light white bullets */
+}
+
+/* Active bullet color */
+.swiper-pagination-bullet-active {
+  background: #0716f3; /* Solid white for the active bullet */
+}
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgba(79, 70, 229, 0.8);
+  background-color: rgb(177, 200, 215);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 20px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+
+  .items-header h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .items-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .item-details h3 {
+    font-size: 1rem;
+  }
+}
