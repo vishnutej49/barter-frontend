@@ -11,6 +11,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   background: linear-gradient(180deg, rgb(159, 201, 248) 0%, rgb(59, 150, 246) 60%, rgba(66, 137, 213, 0.8) 100%);
+  min-height: 100vh;
 }
 
 .treasure-header {
@@ -53,7 +54,7 @@ body {
 
 .treasure-card {
   flex: 0 0 auto;
-  width: 412px;
+  width: 415px;
   max-width: 90vw;
   background: #f3f1f3;
   border-radius: 16px;
@@ -179,6 +180,7 @@ body {
 @media (max-width: 480px) {
   .treasure-container {
     padding: 2rem 1rem;
+    min-height: 100vh; 
   }
 
   .treasure-header h2 {
