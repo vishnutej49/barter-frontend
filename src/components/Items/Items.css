@@ -1,8 +1,9 @@
+/* Base styles */
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #f0f2f3; /* Light blue background for a fresh look */
+  background-color: #f0f2f3;
 }
 
 .treasure-container {
@@ -42,16 +43,19 @@ body {
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 1rem 0;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  touch-action: pan-x;
 }
 
 .carousel-content::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
 .treasure-card {
-  flex: 0 0 415px; /* fixed width for uniformity */
-  background: #f3f1f3; /* consistent background */
+  flex: 0 0 auto;
+  width: 412px;
+  max-width: 90vw;
+  background: #f3f1f3;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -66,7 +70,7 @@ body {
 
 .treasure-image-wrapper {
   position: relative;
-  height: 250px; /* fix height to ensure uniform card size */
+  height: 250px;
 }
 
 .treasure-image {
@@ -91,7 +95,7 @@ body {
   padding: 1rem;
   text-align: center;
   flex-grow: 1;
-  background-color: #f3f1f3; /* ensures detail section matches image section */
+  background-color: #f3f1f3;
 }
 
 .treasure-details h3 {
@@ -136,4 +140,68 @@ body {
 
 .scroll-btn.right {
   margin-left: -10px;
+}
+
+/* ===================== Responsive Styles ===================== */
+
+@media (max-width: 1024px) {
+  .treasure-container {
+    padding: 3rem 2rem;
+  }
+
+  .treasure-header h2 {
+    font-size: 2rem;
+  }
+
+  .treasure-card {
+    width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .treasure-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .treasure-header p {
+    font-size: 1rem;
+  }
+
+  .treasure-card {
+    width: 260px;
+  }
+
+  .scroll-btn {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .treasure-container {
+    padding: 2rem 1rem;
+  }
+
+  .treasure-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .treasure-header p {
+    font-size: 0.95rem;
+  }
+
+  .treasure-card {
+    width: 220px;
+  }
+
+  .treasure-image-wrapper {
+    height: 180px;
+  }
+
+  .treasure-placeholder {
+    font-size: 2.5rem;
+  }
+
+  .scroll-btn {
+    display: none;
+  }
 }
