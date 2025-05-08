@@ -1,72 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import './Items.css';
+import React, { useState, useEffect, useRef } from "react";
+import "./Items.css";
+
+const dummyData = [
+  {
+    name: "Vintage Watch",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+    category: "Collectibles"
+  },
+  {
+    name: "Antique Vase",
+    image:
+      "",
+    category: "Home Decor"
+  },
+  {
+    name: "Classic Camera",
+    image:
+      "",
+    category: "Electronics"
+  },
+  {
+    name: "Rare Book",
+    image:
+      "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=800&q=80",
+    category: "Books"
+  },
+  {
+    name: "Vintage Dress",
+    image: "",
+    category: "Clothing"
+  },
+  {
+    name: "Fountain Pen",
+    image: "",
+    category: "Stationery"
+  }
+];
 
 const Items = () => {
   const [items, setItems] = useState([]);
-
-  // Dummy item data (replace later with API)
-  const dummyData = [
-    { name: "Vintage Watch", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80"},
-    { name: "Antique Vase", image: "https://images.unsplash.com/photo-1596075780758-b8d2fc3eafc1?auto=format&fit=crop&w=800&q=80"},
-    { name: "Classic Camera", image: "https://images.unsplash.com/photo-1519183071298-a2962be96fcd?auto=format&fit=crop&w=800&q=80"},
-    { name: "Rare Book", image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=800&q=80"},
-    { name: "Dress", image: "" },
-    {name: "Pen", image: ""}
-  ];
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     setItems(dummyData);
   }, []);
 
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="items-container">
-      <div className="items-header">
+    <div className="treasure-container">
+      <div className="treasure-header">
         <h2>Treasures for Barter</h2>
-        <p>Discover unique collectibles available for exchange</p>
+        <p>
+          Discover unique collectibles available for exchange - find something
+          special.
+        </p>
       </div>
-      
-      <div className="carousel-container">
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
-          slidesPerView={1}
-          spaceBetween={40}
-          navigation
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-          breakpoints={{
-            768: {
-              slidesPerView: 2,
-            },
-            1024: {
-              slidesPerView: 3,
-            }
-          }}
-          className="items-swiper"
-        >
+
+      <div className="carousel-wrapper">
+        <button className="scroll-btn left" onClick={scrollLeft}>
+          &#10094;
+        </button>
+
+        <div className="carousel-content" ref={carouselRef}>
           {items.map((item, index) => (
-            <SwiperSlide key={index}>
-              <div className="item-card">
-                <div className="item-image-container">
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="item-image"
-                    style={{ width: '100%', height: 'auto' }} // Ensures uniform size
+            <div className="treasure-card" key={index}>
+              <div className="treasure-image-wrapper">
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="treasure-image"
                   />
-                </div>
-                
-                <div className="item-details">
-                  <h3>{item.name}</h3>
-                </div>
+                ) : (
+                  <div className="treasure-placeholder">
+                    <span>{item.name.charAt(0)}</span>
+                  </div>
+                )}
               </div>
-            </SwiperSlide>
+              <div className="treasure-details">
+                <h3>{item.name}</h3>
+                <p className="treasure-category">{item.category}</p>
+              </div>
+            </div>
           ))}
-        </Swiper>
+        </div>
+
+        <button className="scroll-btn right" onClick={scrollRight}>
+          &#10095;
+        </button>
       </div>
     </div>
   );

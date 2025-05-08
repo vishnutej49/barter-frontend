@@ -1,123 +1,139 @@
-.items-container {
-  width: 100%;
-  padding: 4rem 1rem;
-  min-height: 100vh; /* Ensures the background stretches the full height of the viewport */
-  background: linear-gradient(180deg, rgba(79, 70, 229, 1) 0%, rgba(24, 136, 255, 1) 60%, rgba(24, 136, 255, 0.8) 100%);
-  color: white;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f0f2f3; /* Light blue background for a fresh look */
 }
 
-.items-header {
+.treasure-container {
+  padding: 5rem;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, rgb(159, 201, 248) 0%, rgb(59, 150, 246) 60%, rgba(66, 137, 213, 0.8) 100%);
+}
+
+.treasure-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-.items-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+.treasure-header h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0f172a;
 }
 
-.items-header p {
-  font-size: 1.2rem;
-  color: #f1f1f1;
-  max-width: 700px;
-  margin: 0 auto;
+.treasure-header p {
+  color: #334155;
+  max-width: 600px;
+  margin: 0.5rem auto 0;
+  font-size: 1.1rem;
 }
 
-/* Swiper Container */
-.carousel-container {
+.carousel-wrapper {
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
 }
 
-/* Card Styles */
-.item-card {
-  background-color: white;
-  border-radius: 1rem;
+.carousel-content {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1rem 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+.carousel-content::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.treasure-card {
+  flex: 0 0 415px; /* fixed width for uniformity */
+  background: #f3f1f3; /* consistent background */
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
-.item-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+.treasure-card:hover {
+  transform: scale(1.03);
 }
 
-/* Image Styles */
-.item-image-container {
+.treasure-image-wrapper {
   position: relative;
-  aspect-ratio: 4/3;
-  overflow: hidden;
+  height: 250px; /* fix height to ensure uniform card size */
 }
 
-.item-image {
+.treasure-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-bottom: 1px solid #eee;
 }
 
-.item-image:hover {
-  transform: scale(1.1);
+.treasure-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #475569;
 }
 
-/* Item Details */
-.item-details {
+.treasure-details {
   padding: 1rem;
   text-align: center;
+  flex-grow: 1;
+  background-color: #f3f1f3; /* ensures detail section matches image section */
 }
 
-.item-details h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #333;
+.treasure-details h3 {
+  margin: 0.5rem 0;
+  font-size: 1.3rem;
+  color: #1e293b;
 }
 
-/* Swiper Custom Styles */
-/* Default (non-active) bullet color */
-.swiper-pagination-bullet {
-  background: rgba(13, 13, 13, 0.5); /* Light white bullets */
+.treasure-category {
+  font-size: 1rem;
+  color: #64748b;
 }
 
-/* Active bullet color */
-.swiper-pagination-bullet-active {
-  background: #0716f3; /* Solid white for the active bullet */
+.trade-btn {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1.2rem;
+  background-color: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
 }
 
-
-.swiper-button-next,
-.swiper-button-prev {
-  color: rgba(79, 70, 229, 0.8);
-  background-color: rgb(177, 200, 215);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.trade-btn:hover {
+  background-color: #0369a1;
 }
 
-.swiper-button-next:after,
-.swiper-button-prev:after {
-  font-size: 20px;
+.scroll-btn {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: #334155;
+  padding: 0 10px;
 }
 
-/* Media Queries */
-@media (max-width: 768px) {
-  .swiper-button-next,
-  .swiper-button-prev {
-    display: none;
-  }
-
-  .items-header h2 {
-    font-size: 1.8rem;
-  }
+.scroll-btn.left {
+  margin-right: -10px;
 }
 
-@media (max-width: 640px) {
-  .items-header h2 {
-    font-size: 1.4rem;
-  }
-
-  .item-details h3 {
-    font-size: 1rem;
-  }
+.scroll-btn.right {
+  margin-left: -10px;
 }
