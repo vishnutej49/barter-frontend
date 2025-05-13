@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/barter-frontend/static/css/main.c363cf20.css",
-    "main.js": "/barter-frontend/static/js/main.fafe9920.js",
+    "main.css": "/barter-frontend/static/css/main.4f2a43ac.css",
+    "main.js": "/barter-frontend/static/js/main.cd3daeb6.js",
     "static/js/453.aec58f1b.chunk.js": "/barter-frontend/static/js/453.aec58f1b.chunk.js",
     "index.html": "/barter-frontend/index.html",
-    "main.c363cf20.css.map": "/barter-frontend/static/css/main.c363cf20.css.map",
-    "main.fafe9920.js.map": "/barter-frontend/static/js/main.fafe9920.js.map",
+    "main.4f2a43ac.css.map": "/barter-frontend/static/css/main.4f2a43ac.css.map",
+    "main.cd3daeb6.js.map": "/barter-frontend/static/js/main.cd3daeb6.js.map",
     "453.aec58f1b.chunk.js.map": "/barter-frontend/static/js/453.aec58f1b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c363cf20.css",
-    "static/js/main.fafe9920.js"
+    "static/css/main.4f2a43ac.css",
+    "static/js/main.cd3daeb6.js"
   ]
 }
