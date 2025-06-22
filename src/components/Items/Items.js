@@ -1,127 +1,108 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Items.css";
 
-const dummyData = [
-  {name: "Vintage Watch",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",category: "Collectibles"},
-  {name: "Antique Vase",image: "",category: "Home Decor"},
-  {name: "Classic Camera",image: "",category: "Electronics"},
-  {name: "Rare Book",image:"https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=800&q=80",category: "Books"},
-  {name: "Vintage Dress",image: "",category: "Clothing"},
-  {name: "Fountain Pen",image: "",category: "Stationery"}
-];
+const dummyData = {
+  1: [
+    {
+      id: 1,
+      title: "Mountain Bike",
+      location: "Hyderabad",
+      description:
+        "A sturdy mountain bike in great condition. Perfect for off-road adventures and daily commutes.",
+      image:
+        "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 2,
+      title: "Vintage Wooden Chair",
+      location: "Bangalore",
+      description:
+        "Handcrafted wooden chair from reclaimed teak. Mid-century modern design with slight wear.",
+      image:
+        "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=800&q=80",
+    },
+  ],
+  2: [
+    {
+      id: 3,
+      title: "Acoustic Guitar",
+      location: "Chennai",
+      description:
+        "Almost new Yamaha acoustic guitar. Includes soft case and extra strings.",
+      image:
+        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 4,
+      title: "Designer Table Lamp",
+      location: "Delhi",
+      description:
+        "LED lamp with adjustable brightness. Touch controls and energy efficient.",
+      image:
+        "https://images.unsplash.com/photo-1606170033648-5d55a0fd4c99?auto=format&fit=crop&w=800&q=80",
+    },
+  ],
+  3: [],
+};
 
-const Items = () => {
+const ItemBrowse = () => {
   const [items, setItems] = useState([]);
-  const [isPaused, setIsPaused] = useState(false);
-  const carouselRef = useRef(null);
-  const autoScrollRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    setItems(dummyData);
-  }, []);
+    setItems(dummyData[page] || []);
+    setCurrentIndex(0);
+  }, [page]);
 
-  useEffect(() => {
-    const startAutoScroll = () => {
-      autoScrollRef.current = setInterval(() => {
-        if (carouselRef.current && !isPaused) {
-          const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-
-          if (scrollLeft + clientWidth >= scrollWidth - 50) {
-            carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
-          } else {
-            scrollRight();
-          }
-        }
-      }, 3000);
-    };
-
-    startAutoScroll();
-
-    return () => {
-      if (autoScrollRef.current) {
-        clearInterval(autoScrollRef.current);
-      }
-    };
-  }, [isPaused]);
-
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  const handleDecision = () => {
+    if (currentIndex < items.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else {
+      setPage((prev) => prev + 1);
     }
   };
 
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
-
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-  };
-
-  const handleTouchStart = () => {
-    setIsPaused(true);
-  };
-
-  const handleTouchEnd = () => {
-    setTimeout(() => setIsPaused(false), 1000);
-  };
+  const currentItem = items[currentIndex];
 
   return (
-    <div className="treasure-container">
-      <div className="treasure-header">
-        <h2>Treasures for Barter</h2>
-        <p>Discover unique collectibles available for exchange - find something special.</p>
-      </div>
+    <div className="item-page">
+      <div className="browse-wrapper">
+        <header className="browse-header">
+          <h1>BarterMatch</h1>
+          <p>Discover unique items near you</p>
+        </header>
 
-      <div className="carousel-wrapper">
-        <button className="scroll-btn left" onClick={scrollLeft}>
-          &#10094;
-        </button>
-
-        <div
-          className="carousel-content"
-          ref={carouselRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {items.map((item, index) => (
-            <div className="treasure-card" key={index}>
-              <div className="treasure-image-wrapper">
-                {item.image ? (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="treasure-image"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="treasure-placeholder">
-                    <span>{item.name.charAt(0)}</span>
-                  </div>
-                )}
+        <main className="browse-main">
+          {currentItem ? (
+            <div className="item-card fade-in">
+              <img src={currentItem.image} alt={currentItem.title} className="item-image" />
+              <div className="item-details">
+                <h2>{currentItem.title}</h2>
+                <p className="location">{currentItem.location}</p>
+                <p>{currentItem.description}</p>
               </div>
-              <div className="treasure-details">
-                <h3>{item.name}</h3>
-                <p className="treasure-category">{item.category}</p>
+
+              <div className="btn-group">
+                <button className="btn reject" onClick={handleDecision}>
+                  Not Interested
+                </button>
+                <button className="btn accept" onClick={handleDecision}>
+                  Interested
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-
-        <button className="scroll-btn right" onClick={scrollRight}>
-          &#10095;
-        </button>
+          ) : (
+            <div className="no-items">
+              <img src={`${process.env.PUBLIC_URL}/assets/no-items.png`} alt="No items" />
+              <h3>No more items available</h3>
+              <p>Check back later!</p>
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );
 };
 
-export default Items;
+export default ItemBrowse;
