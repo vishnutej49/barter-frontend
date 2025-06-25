@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Users.css';
 
 const url = "https://mkos3c7azl.execute-api.eu-north-1.amazonaws.com/dev";
@@ -10,13 +10,14 @@ function Users() {
   const [image, setImage] = useState(null);
   const [base64Image, setBase64Image] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const fileInputRef = useRef(null);
   const [inputVisibility, setInputVisibility] = useState({
     title: false,
     description: false,
     category: false,
     image: false
   });
-
+  
   useEffect(() => {
     const timers = [
       setTimeout(() => setInputVisibility(prev => ({ ...prev, title: true })), 100),
@@ -29,19 +30,28 @@ function Users() {
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
+
+    if (!file) return;
+    
+    const maxSize = 2 * 1024 * 1024; 
+
+    if (file.size > maxSize) {
+      alert('File size should not exceed 2MB.');
+      return;
+    }
     setImage(file);
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      const base64 = reader.result.split(',')[1];
+      const base64 = reader.result;
       setBase64Image(base64);
     };
     reader.readAsDataURL(file);
   };
-
+  
   const handleSubmit = async () => {
-    if (!image || !title || !description || !category) {
-      alert("Please fill all fields");
+    if(!image || !category || !description || !title){
+      alert("All fields are mandatory");
       return;
     }
 
@@ -66,8 +76,13 @@ function Users() {
         setTitle('');
         setCategory('');
         setDescription('');
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        alert("Item uploaded successfully!");
       } else {
-        alert("Submission failed");
+        const errorText = await res.json();
+        alert("Submission failed: " + errorText.message);
       }
     } catch (err) {
       console.error(err);
@@ -100,9 +115,10 @@ function Users() {
           placeholder="Category"
         />
         <input
+          ref={fileInputRef}
           className={inputVisibility.image ? 'input-visible' : 'input-hidden'}
           type="file"
-          accept="image/jpeg"
+          accept="image/jpeg, image/jpg, image/png"
           onChange={handleUpload}
           placeholder='Image'
         />
