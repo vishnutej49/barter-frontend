@@ -1,66 +1,46 @@
 import React, { useState, useEffect } from "react";
 import "./Items.css";
 
-const dummyData = {
-  1: [
-    {
-      id: 1,
-      title: "Mountain Bike",
-      location: "Hyderabad",
-      description:
-        "A sturdy mountain bike in great condition. Perfect for off-road adventures and daily commutes.",
-      image:
-        "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 2,
-      title: "Vintage Wooden Chair",
-      location: "Bangalore",
-      description:
-        "Handcrafted wooden chair from reclaimed teak. Mid-century modern design with slight wear.",
-      image:
-        "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=800&q=80",
-    },
-  ],
-  2: [
-    {
-      id: 3,
-      title: "Acoustic Guitar",
-      location: "Chennai",
-      description:
-        "Almost new Yamaha acoustic guitar. Includes soft case and extra strings.",
-      image:
-        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      id: 4,
-      title: "Designer Table Lamp",
-      location: "Delhi",
-      description:
-        "LED lamp with adjustable brightness. Touch controls and energy efficient.",
-      image:
-        "https://images.unsplash.com/photo-1606170033648-5d55a0fd4c99?auto=format&fit=crop&w=800&q=80",
-    },
-  ],
-  3: [],
-};
-
 const ItemBrowse = () => {
   const [items, setItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [page, setPage] = useState(1);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setItems(dummyData[page] || []);
-    setCurrentIndex(0);
-  }, [page]);
+    const fetchItems = async () => {
+      setError(null);
+
+      try {
+        const response = await fetch(
+          `https://mkos3c7azl.execute-api.eu-north-1.amazonaws.com/dev`
+        );
+        const data = await response.json();
+
+        console.log("📦 Full API Response:", data);
+
+        if (Array.isArray(data)) {
+          setItems(data);
+        } else if (Array.isArray(data.items)) {
+          setItems(data.items);
+        } else {
+          console.error("❌ Unexpected response format", data);
+          setError("Unexpected data format from backend.");
+          setItems([]);
+        }
+
+        setCurrentIndex(0);
+      } catch (err) {
+        console.error("❌ Failed to fetch items:", err);
+        setError("Failed to load items. Check backend or network.");
+        setItems([]);
+      }
+    };
+
+    fetchItems();
+  }, []);
 
   const handleDecision = () => {
-    if (currentIndex < items.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      setPage((prev) => prev + 1);
-    }
+    setCurrentIndex((prev) => prev + 1);
   };
 
   const currentItem = items[currentIndex];
@@ -74,12 +54,30 @@ const ItemBrowse = () => {
         </header>
 
         <main className="browse-main">
-          {currentItem ? (
+          {error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : items.length === 0 ? (
+            <div className="no-items">
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/no-items.png`}
+                alt="No items"
+              />
+              <h3>No items found</h3>
+              <p>Check back later!</p>
+            </div>
+          ) : currentItem ? (
             <div className="item-card fade-in">
-              <img src={currentItem.image} alt={currentItem.title} className="item-image" />
+              <img
+                src={
+                  currentItem.image_url ||
+                  `${process.env.PUBLIC_URL}/assets/placeholder.png`
+                }
+                alt={currentItem.title}
+                className="item-image"
+              />
               <div className="item-details">
                 <h2>{currentItem.title}</h2>
-                <p className="location">{currentItem.location}</p>
+                <p className="location">{currentItem.category}</p>
                 <p>{currentItem.description}</p>
               </div>
 
@@ -94,9 +92,13 @@ const ItemBrowse = () => {
             </div>
           ) : (
             <div className="no-items">
-              <img src={`${process.env.PUBLIC_URL}/assets/no-items.png`} alt="No items" />
-              <h3>No more items available</h3>
-              <p>Check back later!</p>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/no-items.png`}
+                alt="No more items"
+              />
+              <h3>That’s all for now!</h3>
+              <p>You’ve seen everything we have. New items may appear on refresh.</p>
+             
             </div>
           )}
         </main>
