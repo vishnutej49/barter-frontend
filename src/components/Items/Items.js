@@ -5,9 +5,11 @@ const ItemBrowse = () => {
   const [items, setItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true); 
       setError(null);
 
       try {
@@ -33,6 +35,8 @@ const ItemBrowse = () => {
         console.error("❌ Failed to fetch items:", err);
         setError("Failed to load items. Check backend or network.");
         setItems([]);
+      } finally {
+        setLoading(false); 
       }
     };
 
@@ -54,7 +58,11 @@ const ItemBrowse = () => {
         </header>
 
         <main className="browse-main">
-          {error ? (
+          {loading ? (
+            <div className="loading">
+              <p>Loading items...</p>
+            </div>
+          ) : error ? (
             <p style={{ color: "red" }}>{error}</p>
           ) : items.length === 0 ? (
             <div className="no-items">
@@ -98,7 +106,6 @@ const ItemBrowse = () => {
               />
               <h3>That’s all for now!</h3>
               <p>You’ve seen everything we have. New items may appear on refresh.</p>
-             
             </div>
           )}
         </main>
